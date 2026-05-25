@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(-Wfatal-errors)
+add_compile_options(-Werror=return-type)
+
 find_package(GTest REQUIRED)
 find_package(range-v3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options)
@@ -19,12 +22,12 @@ add_subdirectory(src)
 set(target analyzer)
 add_executable(${target} main.cpp)
 
-target_link_libraries(${target} 
+target_link_libraries(${target}
     PRIVATE
         metric_accumulator
         metric
         cmd_options
-        #range-v3::range-v3
+        range-v3::range-v3
 )
 
 # BUILD_INTERFACE автоматически подключает include-пути всех библиотек, указанных в target_link_libraries для analyzer
