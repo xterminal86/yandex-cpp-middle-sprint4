@@ -16,6 +16,8 @@
 #include <variant>
 #include <vector>
 
+#include "utils.hpp"
+
 namespace analyzer::metric::metric_impl {
 std::string CyclomaticComplexityMetric::Name() const { return kName; }
 MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function::Function &f) const {
@@ -64,6 +66,6 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
     // сколько раз он встречается в `function_ast`, используя `std::string::find`
     // в цикле (это допустимо, так как вы работаете со строковым представлением AST,
     // а не с исходным кодом напрямую).
-
+    return 0;
 }
 }  // namespace analyzer::metric::metric_impl
