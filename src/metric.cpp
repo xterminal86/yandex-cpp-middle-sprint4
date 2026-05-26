@@ -21,7 +21,11 @@
 #include "function.hpp"
 
 namespace analyzer::metric {
-void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric) { metrics.push_back(std::move(metric)); }
+
+void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric)
+{
+  metrics.push_back(std::move(metric));
+}
 
 /**
  * @brief Вычисляет все зарегистрированные метрики для заданной функции.
@@ -29,7 +33,8 @@ void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric) { metrics.
  * Эта функция применяет каждый метрический объект из контейнера `metrics`
  * к переданной функции `func` и собирает результаты в вектор.
  */
-MetricResults MetricExtractor::Get(const function::Function &func) const {
+MetricResults MetricExtractor::Get(const function::Function &func) const
+{
     // здесь ваш код
     return {};
 }

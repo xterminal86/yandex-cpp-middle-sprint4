@@ -5,4 +5,4 @@ mkdir -p build
 cd build
 rm -rf *
 cmake ../
-make
+make -j4

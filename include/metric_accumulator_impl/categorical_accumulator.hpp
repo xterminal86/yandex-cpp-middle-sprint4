@@ -20,7 +20,8 @@
 
 namespace analyzer::metric_accumulator::metric_accumulator_impl {
 
-struct CategoricalAccumulator : public IAccumulator {
+struct CategoricalAccumulator : public IAccumulator
+{
     void Accumulate(const metric::MetricResult &metric_result) override;
 
     virtual void Finalize() override;
@@ -29,7 +30,7 @@ struct CategoricalAccumulator : public IAccumulator {
 
     const std::unordered_map<std::string, int> &Get() const;
 
-private:
+  private:
     std::unordered_map<std::string, int> categories_freq;
 };
 

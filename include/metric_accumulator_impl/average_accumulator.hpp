@@ -20,7 +20,8 @@
 
 namespace analyzer::metric_accumulator::metric_accumulator_impl {
 
-struct AverageAccumulator : public IAccumulator {
+struct AverageAccumulator : public IAccumulator
+{
     void Accumulate(const metric::MetricResult &metric_result) override;
 
     void Finalize() override;
@@ -29,7 +30,7 @@ struct AverageAccumulator : public IAccumulator {
 
     double Get() const;
 
-private:
+  private:
     int sum = 0;
     int count = 0;
     double average = 0;

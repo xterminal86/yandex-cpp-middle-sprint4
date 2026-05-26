@@ -39,9 +39,10 @@ namespace rs = std::ranges;
  * 6. Возвращает вектор пар: (функция, результаты её метрик).
  */
 auto AnalyseFunctions(const std::vector<std::string> &files,
-                      const analyzer::metric::MetricExtractor &metric_extractor) {
-    // здесь ваш код
-    return std::vector<std::pair<function::Function, metric::MetricResult>>();
+                      const analyzer::metric::MetricExtractor &metric_extractor)
+{
+  // здесь ваш код
+  return std::vector<std::pair<function::Function, metric::MetricResult>>();
 }
 
 /**
@@ -62,8 +63,9 @@ auto AnalyseFunctions(const std::vector<std::string> &files,
  *  Чтобы убедиться, что фильтрация работает, проверьте, что свободные функции (без class_name)
  * действительно исчезают из результата.
  */
-auto SplitByClasses(const auto &analysis) {
-    // здесь ваш код
+auto SplitByClasses(const auto &analysis)
+{
+  // здесь ваш код
 }
 
 /**
@@ -74,8 +76,9 @@ auto SplitByClasses(const auto &analysis) {
  *   только функции из одного и того же файла (`filename`).
  * - Использует `chunk_by`, поэтому **порядок функций в `analysis` должен быть по файлам**.
  */
-auto SplitByFiles(const auto &analysis) {
-    // здесь ваш код
+auto SplitByFiles(const auto &analysis)
+{
+  // здесь ваш код
 }
 
 /**
@@ -86,9 +89,12 @@ auto SplitByFiles(const auto &analysis) {
  *   (то есть по каждой функции и её метрикам).
  * - Передаёт результаты метрик (`elem.second`) в аккумулятор через `AccumulateNextFunctionResults`.
  */
-void AccumulateFunctionAnalysis(const auto &analysis,
-                                const analyzer::metric_accumulator::MetricsAccumulator &accumulator) {
-    // здесь ваш код
+void AccumulateFunctionAnalysis(
+  const auto &analysis,
+  const analyzer::metric_accumulator::MetricsAccumulator &accumulator
+)
+{
+  // здесь ваш код
 }
 
 }  // namespace analyzer

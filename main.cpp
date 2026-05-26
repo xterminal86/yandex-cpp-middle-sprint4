@@ -28,31 +28,56 @@
 
 int main(int argc, char *argv[])
 {
-    // FIXME: to compile for now
-
-    #if 0
     analyzer::cmd::ProgramOptions options;
     if (!options.Parse(argc, argv))
-        return 1;
+    {
+      return 1;
+    }
+
+    // FIXME: to compile for now
+    #if 0
     using namespace analyzer::metric::metric_impl;
+
     analyzer::metric::MetricExtractor metric_extractor;
+
     metric_extractor.RegisterMetric(std::make_unique<CyclomaticComplexityMetric>());
     metric_extractor.RegisterMetric(std::make_unique<CodeLinesCountMetric>());
-    metric_extractor.RegisterMetric(std::make_unique<NamingStyleMetric>());
+    //metric_extractor.RegisterMetric(std::make_unique<NamingStyleMetric>());
     metric_extractor.RegisterMetric(std::make_unique<CountParametersMetric>());
 
-    auto analysis = analyzer::AnalyseFunctions(options.GetFiles(), metric_extractor);
+    auto analysis = analyzer::AnalyseFunctions(
+      options.GetFiles(),
+      metric_extractor
+    );
 
     std::println("Analysis for every function:");
-    std::ranges::for_each(analysis, [&](const auto &elem) {
+    std::ranges::for_each(
+      analysis,
+      [&](const auto &elem)
+      {
         const auto &[function, metrics] = elem;
-        std::println("  {}::{}{}: ", function.filename,
-                     (function.class_name.has_value() ? function.class_name.value() + "::" : ""), function.name);
-        std::ranges::for_each(metrics, [&](const auto &result) {
+        std::println("  {}::{}{}: ",
+                     function.filename,
+                     (function.class_name.has_value() ?
+                     function.class_name.value() + "::" :
+                     ""),
+                     function.name);
+        std::ranges::for_each(
+          metrics,
+          [&](const auto &result)
+          {
             std::print("    {}: ", result.metric_name);
-            std::visit([](auto &&val) { std::println("{}", val); }, result.value);
-        });
-    });
+            std::visit(
+              [](auto &&val)
+              {
+                std::println("{}", val);
+              },
+              result.value
+            );
+          }
+        );
+      }
+    );
 
     analyzer::metric_accumulator::MetricsAccumulator accumulator;
     using namespace analyzer::metric_accumulator::metric_accumulator_impl;

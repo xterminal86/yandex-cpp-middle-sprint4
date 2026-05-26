@@ -19,25 +19,44 @@
 
 namespace analyzer::metric_accumulator::metric_accumulator_impl {
 
-void AverageAccumulator::Accumulate(const metric::MetricResult &metric_result) {
-    sum += metric_result.value;
-    count++;
-}
-void AverageAccumulator::Finalize() {
-    average = static_cast<double>(sum) / count;
-    is_finalized = true;
+// =============================================================================
+
+void AverageAccumulator::Accumulate(const metric::MetricResult &metric_result)
+{
+  sum += metric_result.value;
+  count++;
 }
 
-void AverageAccumulator::Reset() {
-    is_finalized = false;
-    sum = 0;
-    count = 0;
-    average = 0;
+// =============================================================================
+
+void AverageAccumulator::Finalize()
+{
+  average = static_cast<double>(sum) / count;
+  is_finalized = true;
 }
 
-double AverageAccumulator::Get() const {
-    if (!is_finalized)
-        throw std::runtime_error("AverageAccumulator::Get() called before Finalize()");
-    return average;
+// =============================================================================
+
+void AverageAccumulator::Reset()
+{
+  is_finalized = false;
+  sum = 0;
+  count = 0;
+  average = 0;
 }
+
+// =============================================================================
+
+double AverageAccumulator::Get() const
+{
+  if (!is_finalized)
+  {
+    throw std::runtime_error(
+      "AverageAccumulator::Get() called before Finalize()"
+    );
+  }
+
+  return average;
+}
+
 }  // namespace analyzer::metric_accumulator::metric_accumulator_impl
