@@ -34,17 +34,17 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-    // FIXME: to compile for now
-    #if 0
     using namespace analyzer::metric::metric_impl;
 
     analyzer::metric::MetricExtractor metric_extractor;
 
-    metric_extractor.RegisterMetric(std::make_unique<CyclomaticComplexityMetric>());
-    metric_extractor.RegisterMetric(std::make_unique<CodeLinesCountMetric>());
-    //metric_extractor.RegisterMetric(std::make_unique<NamingStyleMetric>());
-    metric_extractor.RegisterMetric(std::make_unique<CountParametersMetric>());
+    metric_extractor.RegisterMetric<CyclomaticComplexityMetric>();
+    metric_extractor.RegisterMetric<CodeLinesCountMetric>();
+    //metric_extractor.RegisterMetric<NamingStyleMetric>();
+    metric_extractor.RegisterMetric<CountParametersMetric>();
 
+    // FIXME: to compile for now
+    #if 0
     auto analysis = analyzer::AnalyseFunctions(
       options.GetFiles(),
       metric_extractor

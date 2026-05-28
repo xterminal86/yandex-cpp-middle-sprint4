@@ -16,6 +16,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <concepts>
 
 #include "function.hpp"
 
@@ -62,7 +63,11 @@ using MetricResults = std::vector<MetricResult>;
 
 struct MetricExtractor
 {
-  void RegisterMetric(std::unique_ptr<IMetric> metric);
+  template <std::derived_from<IMetric> T>
+  void RegisterMetric()
+  {
+    metrics.push_back(std::make_unique<T>());
+  }
 
   MetricResults Get(const function::Function &func) const;
   std::vector<std::unique_ptr<IMetric>> metrics;
