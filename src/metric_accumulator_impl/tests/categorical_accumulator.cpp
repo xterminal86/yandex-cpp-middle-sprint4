@@ -1,5 +1,3 @@
-
-
 #include "metric_accumulator_impl/categorical_accumulator.hpp"
 
 #include <gtest/gtest.h>
