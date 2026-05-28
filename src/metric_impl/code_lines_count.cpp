@@ -31,13 +31,15 @@ std::string CodeLinesCountMetric::Name() const
 // =============================================================================
 
 MetricResult::ValueType
-CodeLinesCountMetric::CalculateImpl(const function::Function &f) const
+CodeLinesCountMetric::CalculateImpl(const function::Function& f) const
 {
   auto &function_ast = f.ast;
 
   // Вспомогательная лямбда для извлечения номера строки из диапазона узла AST.
-  // Формат узла в S-выражении: (node_type [start_line,start_column] [end_line,end_column] ...)
-  // Эта функция ищет открывающую скобку "[" после заданной позиции и парсит первую координату — номер строки.
+  // Формат узла в S-выражении:
+  // (node_type [start_line,start_column] [end_line,end_column] ...)
+  // Эта функция ищет открывающую скобку "[" после заданной позиции и парсит
+  // первую координату — номер строки.
   auto line_number = [&](int start_pos)
   {
     size_t line_pos = function_ast.find("[", start_pos);
@@ -51,7 +53,8 @@ CodeLinesCountMetric::CalculateImpl(const function::Function &f) const
   const int start_line = line_number(0);
   const int end_line = line_number(function_ast.find("] -"));
 
-  // Лямбда, проверяющая, является ли конкретная строка "кодовой", то есть не комментарием.
+  // Лямбда, проверяющая, является ли конкретная строка "кодовой", то есть не
+  // комментарием.
   auto is_code_line = [&](int line)
   {
     std::string line_marker = "[" + std::to_string(line) + ",";
@@ -78,12 +81,21 @@ CodeLinesCountMetric::CalculateImpl(const function::Function &f) const
   // === ВАШ КОД ДОЛЖЕН БЫТЬ ЗДЕСЬ ===
   //
   // Цель: подсчитать количество строк в диапазоне [start_line + 1, end_line],
-  // которые действительно содержат код (а не только комментарии или пустые строки).
+  // которые действительно содержат код (а не только комментарии или пустые
+  // строки).
   //
   // Почему start_line + 1?
   // Потому что первая строка — это строка с объявлением функции (def ...),
   // а тело функции начинается со следующей строки (обычно с отступа).
-  // std::views::filter([&](int line) { return is_code_line(line); })));
+  std::vector<int> lines = { 0 };
+  auto res = lines | std::views::filter(
+    [&](int line)
+    {
+      return is_code_line(line);
+    }
+  );
+
+  // FIXME:
   return 0;
 }
 

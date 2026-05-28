@@ -15,7 +15,7 @@ namespace rs = std::ranges;
 
 // =============================================================================
 
-File::File(const std::string &filename) : name{filename}
+File::File(const std::string& filename) : name{filename}
 {
   std::ifstream file(name);
   if (!file.is_open())
@@ -29,7 +29,7 @@ File::File(const std::string &filename) : name{filename}
 
 // =============================================================================
 
-std::vector<std::string> File::ReadSourceFile(std::ifstream &file)
+std::vector<std::string> File::ReadSourceFile(std::ifstream& file)
 {
   std::vector<std::string> lines;
   std::string line;
@@ -43,7 +43,7 @@ std::vector<std::string> File::ReadSourceFile(std::ifstream &file)
 
 // =============================================================================
 
-std::string File::GetAst(const std::string &filename) try
+std::string File::GetAst(const std::string& filename) try
 {
   std::string full_cmd = File::command_prefix + filename + " 2>&1";
   std::string result;
@@ -80,7 +80,9 @@ std::string File::GetAst(const std::string &filename) try
   FILE *raw_pipe = popen(full_cmd.c_str(), "r");
   if (!raw_pipe)
   {
-    throw std::runtime_error("Failed to execute command: " + std::string(std::strerror(errno)));
+    throw std::runtime_error(
+      "Failed to execute command: " + std::string(std::strerror(errno))
+    );
   }
 
   PipePtr pipe(raw_pipe);

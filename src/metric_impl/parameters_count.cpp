@@ -26,9 +26,9 @@ std::string CountParametersMetric::Name() const
 // =============================================================================
 
 MetricResult::ValueType
-CountParametersMetric::CalculateImpl(const function::Function &f) const
+CountParametersMetric::CalculateImpl(const function::Function& f) const
 {
-  auto &function_ast = f.ast;
+  auto& function_ast = f.ast;
 
   // 1. Находим начало блока параметров
   const std::string parameters_marker = "(parameters";

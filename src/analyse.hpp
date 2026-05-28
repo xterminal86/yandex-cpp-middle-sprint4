@@ -44,8 +44,8 @@ using PairFnRes = std::pair<function::Function, metric::MetricResult>;
 using AnalyzeResult = std::vector<PairFnRes>;
 
 AnalyzeResult AnalyseFunctions(
-  const std::vector<std::string> &files,
-  const metric::MetricExtractor &metric_extractor
+  const std::vector<std::string>& files,
+  const metric::MetricExtractor& metric_extractor
 )
 {
   // здесь ваш код
