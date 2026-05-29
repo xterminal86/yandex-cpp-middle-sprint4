@@ -55,8 +55,10 @@ AnalyzeResult AnalyzeFunctions(
   {
     file::File f(fname);
     std::println("AST:");
+    std::println("----");
     std::println("{}\n", f.ast);
     std::println("Source:");
+    std::println("-------");
     for (auto& line : f.source_lines)
     {
       std::println("  {}", line);

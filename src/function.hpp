@@ -34,10 +34,25 @@ struct Function
   std::string ToString() const
   {
     static const std::string line(80, '=');
+    const void* addr = std::addressof(*this);
+
+    const std::string format_string = R"(
+{}
+Function {:P}
+
+- filename   = '{}'
+- class_name = '{}'
+- name       = '{}'
+- AST:
+  {}
+{}
+)";
+
     return std::vformat(
-      "{}\n< filename = '{}', class_name = '{}', name = '{}'>\nAST:\n{}\n{}\n",
+      format_string,
       std::make_format_args(
         line,
+        addr,
         filename,
         // This is so fucking bullshit, you can't even write
         // class_name.value_or("shite"), which would be fitting here.

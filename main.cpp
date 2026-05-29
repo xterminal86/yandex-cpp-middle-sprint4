@@ -69,6 +69,10 @@ int main(int argc, char *argv[])
         [&](const MetricResult& result)
         {
           std::print("    {}: {}", result.metric_name, result.value);
+
+          //
+          // For std::variant
+          //
           //std::visit(
           //  [](auto&& val)
           //  {
