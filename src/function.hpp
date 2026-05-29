@@ -40,7 +40,7 @@ struct Function
         line,
         filename,
         // This is so fucking bullshit, you can't even write
-        // class_name.value_or("shite"), which would be logical here.
+        // class_name.value_or("shite"), which would be fitting here.
         (class_name ? *class_name : "(none)"),
         name,
         ast,

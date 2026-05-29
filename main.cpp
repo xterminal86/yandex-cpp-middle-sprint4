@@ -17,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-#include "analyse.hpp"
+#include "analyze.hpp"
 #include "cmd_options.hpp"
 #include "file.hpp"
 #include "function.hpp"
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
   //metric_extractor.RegisterMetric<NamingStyleMetric>();
   metric_extractor.RegisterMetric<CountParametersMetric>();
 
-  AnalyzeResult analysis = AnalyseFunctions(
+  AnalyzeResult analysis = AnalyzeFunctions(
     options.GetFiles(),
     metric_extractor
   );
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     analysis_by_files,
     [&accumulator, &print_accumulated_analysis](const auto& analysis)
     {
-      analyser::AccumulateFunctionAnalysis(analysis, accumulator);
+      analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
       std::println();
       std::println("Accumulated Analysis for file {}:",
                    analysis.front().first.filename);
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
   auto analysis_by_classes = analyzer::SplitByClasses(analysis);
 
   std::ranges::for_each(analysis_by_classes, [&accumulator, &print_accumulated_analysis](const auto &analysis) {
-      analyser::AccumulateFunctionAnalysis(analysis, accumulator);
+      analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
       std::println();
       std::println("Accumulated Analysis for сlass {}:", analysis.front().first.class_name.value());
       print_accumulated_analysis(accumulator);

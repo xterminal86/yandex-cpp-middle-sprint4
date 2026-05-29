@@ -26,7 +26,7 @@ namespace analyzer::metric_accumulator {
 
 struct IAccumulator
 {
-    virtual void Accumulate(const metric::MetricResult &metric_result) = 0;
+    virtual void Accumulate(const metric::MetricResult& metric_result) = 0;
     virtual void Finalize() = 0;
     virtual void Reset() = 0;
     virtual ~IAccumulator() = default;
@@ -38,7 +38,7 @@ struct IAccumulator
 struct MetricsAccumulator
 {
     template <typename Accumulator>
-    void RegisterAccumulator(const std::string &metric_name,
+    void RegisterAccumulator(const std::string& metric_name,
                              std::unique_ptr<Accumulator> acc)
     {
         accumulators.emplace(metric_name, std::move(acc));
@@ -55,7 +55,7 @@ struct MetricsAccumulator
     }
 
     void AccumulateNextFunctionResults(
-      const std::vector<metric::MetricResult> &metric_results
+      const std::vector<metric::MetricResult>& metric_results
     ) const;
 
     void ResetAccumulators();

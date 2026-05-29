@@ -43,7 +43,7 @@ namespace rs = std::ranges;
 using PairFnRes = std::pair<function::Function, metric::MetricResults>;
 using AnalyzeResult = std::vector<PairFnRes>;
 
-AnalyzeResult AnalyseFunctions(
+AnalyzeResult AnalyzeFunctions(
   const std::vector<std::string>& files,
   const metric::MetricExtractor& metric_extractor
 )
@@ -112,13 +112,14 @@ auto SplitByClasses(const AnalyzeResult& analysis)
 auto SplitByFiles(const AnalyzeResult& analysis)
 {
   // здесь ваш код
+  // return r | std::ranges::to<std::vector>();
 }
 
 /**
  * @brief Агрегирует метрики всех функций с помощью аккумулятора.
  *
  * Эта функция:
- * - Проходит по каждому элементу результата `AnalyseFunctions`
+ * - Проходит по каждому элементу результата `AnalyzeFunctions`
  *   (то есть по каждой функции и её метрикам).
  * - Передаёт результаты метрик (`elem.second`) в аккумулятор через
  *   `AccumulateNextFunctionResults`.

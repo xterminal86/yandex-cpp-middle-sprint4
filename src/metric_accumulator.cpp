@@ -17,6 +17,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <print>
 
 namespace analyzer::metric_accumulator {
 /**
@@ -34,10 +35,25 @@ namespace analyzer::metric_accumulator {
  *   состояние аккумулятора.
  */
 void MetricsAccumulator::AccumulateNextFunctionResults(
-  const std::vector<metric::MetricResult> &metric_results
+  const std::vector<metric::MetricResult>& metric_results
 ) const
 {
-    // здесь ваш код
+  // здесь ваш код
+  std::ranges::for_each(
+    metric_results,
+    [&](auto& m)
+    {
+      if (accumulators.count(m.metric_name) == 1)
+      {
+        accumulators.at(m.metric_name)->Accumulate(m);
+      }
+      else
+      {
+        std::println("{}:{} - nothing to do for metric name '{}'",
+                   __FILE__, __LINE__, m.metric_name);
+      }
+    }
+  );
 }
 
 /**
@@ -50,7 +66,14 @@ void MetricsAccumulator::AccumulateNextFunctionResults(
  */
 void MetricsAccumulator::ResetAccumulators()
 {
-    // здесь ваш код
+  // здесь ваш код
+  std::ranges::for_each(
+    accumulators | std::views::values,
+    [](auto& a)
+    {
+      a->Reset();
+    }
+  );
 }
 
 }  // namespace analyzer::metric_accumulator

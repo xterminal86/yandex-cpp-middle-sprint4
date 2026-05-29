@@ -34,7 +34,7 @@ std::vector<Function> FunctionExtractor::Get(const analyzer::file::File& file)
 
   size_t start = 0;
   const std::string marker = "(function_definition";
-  const std::string &ast = file.ast;
+  const std::string& ast = file.ast;
 
   while ((start = ast.find(marker, start)) != std::string::npos)
   {
@@ -160,7 +160,7 @@ FunctionExtractor::FindEnclosingClass(const std::string& ast,
     Position class_start
     {
       static_cast<size_t>(ToInt(coords.substr(0, comma))),
-      static_cast<size_t>(ToInt(coords.substr(comma + 1)))
+      static_cast<size_t>(ToInt(coords.substr(comma + 2)))
     };
 
     size_t dash = ast.find('-', coord_end);
@@ -175,7 +175,7 @@ FunctionExtractor::FindEnclosingClass(const std::string& ast,
     Position class_end
     {
       static_cast<size_t>(ToInt(end_coords.substr(0, comma))),
-      static_cast<size_t>(ToInt(end_coords.substr(comma + 1)))
+      static_cast<size_t>(ToInt(end_coords.substr(comma + 2)))
     };
 
     if (func_loc.start.line > class_start.line ||
