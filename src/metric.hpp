@@ -69,7 +69,7 @@ struct MetricExtractor
     metrics.push_back(std::make_unique<T>());
   }
 
-  MetricResults Get(const function::Function &func) const;
+  MetricResults Get(const function::Function& func) const;
   std::vector<std::unique_ptr<IMetric>> metrics;
 };
 

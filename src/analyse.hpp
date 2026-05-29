@@ -40,7 +40,7 @@ namespace rs = std::ranges;
  *    `metric_extractor`.
  * 6. Возвращает вектор пар: (функция, результаты её метрик).
  */
-using PairFnRes = std::pair<function::Function, metric::MetricResult>;
+using PairFnRes = std::pair<function::Function, metric::MetricResults>;
 using AnalyzeResult = std::vector<PairFnRes>;
 
 AnalyzeResult AnalyseFunctions(
@@ -49,7 +49,30 @@ AnalyzeResult AnalyseFunctions(
 )
 {
   // здесь ваш код
-  return {};
+  AnalyzeResult res;
+
+  for (auto& fname : files)
+  {
+    file::File f(fname);
+    std::println("AST:");
+    std::println("{}\n", f.ast);
+    std::println("Source:");
+    for (auto& line : f.source_lines)
+    {
+      std::println("  {}", line);
+    }
+    std::println("");
+
+    function::FunctionExtractor fe;
+
+    std::vector<function::Function> fns = fe.Get(fname);
+    for (const function::Function& fn : fns)
+    {
+      std::println("{}", fn.ToString());
+    }
+  }
+
+  return res;
 }
 
 /**

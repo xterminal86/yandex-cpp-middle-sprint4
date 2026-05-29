@@ -28,10 +28,17 @@ namespace analyzer::metric {
  * Эта функция применяет каждый метрический объект из контейнера `metrics`
  * к переданной функции `func` и собирает результаты в вектор.
  */
-MetricResults MetricExtractor::Get(const function::Function &func) const
+MetricResults MetricExtractor::Get(const function::Function& func) const
 {
-    // здесь ваш код
-    return {};
+  // здесь ваш код
+  MetricResults res;
+
+  for (auto& metric : metrics)
+  {
+    res.push_back(metric->Calculate(func));
+  }
+
+  return res;
 }
 
 }  // namespace analyzer::metric

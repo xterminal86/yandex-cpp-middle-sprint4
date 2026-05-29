@@ -30,11 +30,29 @@ struct Function
   std::optional<std::string> class_name;
   std::string name;
   std::string ast;
+
+  std::string ToString() const
+  {
+    static const std::string line(80, '=');
+    return std::vformat(
+      "{}\n< filename = '{}', class_name = '{}', name = '{}'>\nAST:\n{}\n{}\n",
+      std::make_format_args(
+        line,
+        filename,
+        // This is so fucking bullshit, you can't even write
+        // class_name.value_or("shite"), which would be logical here.
+        (class_name ? *class_name : "(none)"),
+        name,
+        ast,
+        line
+      )
+    );
+  }
 };
 
 struct FunctionExtractor
 {
-    std::vector<Function> Get(const analyzer::file::File &file);
+    std::vector<Function> Get(const analyzer::file::File& file);
 
   private:
     struct Position

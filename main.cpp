@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
                     function.class_name.value() + "::" :
                     ""),
                     function.name);
-      /*
+
       std::ranges::for_each(
         metrics,
         [&](const MetricResult& result)
@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
           //);
         }
       );
-      */
     }
   );
 
