@@ -49,32 +49,22 @@ AnalyzeResult AnalyzeFunctions(
 )
 {
   // здесь ваш код
-  AnalyzeResult res;
-
-  for (auto& fname : files)
-  {
-    file::File f(fname);
-    std::println("AST:");
-    std::println("----");
-    std::println("{}\n", f.ast);
-    std::println("Source:");
-    std::println("-------");
-    for (auto& line : f.source_lines)
+  auto stuff = files | std::views::transform(
+    [&](auto& fname)
     {
-      std::println("  {}", line);
+      function::FunctionExtractor fe;
+      return fe.Get(fname);
     }
-    std::println("");
-
-    function::FunctionExtractor fe;
-
-    std::vector<function::Function> fns = fe.Get(fname);
-    for (const function::Function& fn : fns)
+  )
+  | std::views::join
+  | std::views::transform(
+    [&](const function::Function& fn)
     {
-      std::println("{}", fn.ToString());
+      return std::pair{ fn, metric_extractor.Get(fn) };
     }
-  }
+  );
 
-  return res;
+  return stuff | std::ranges::to<AnalyzeResult>();
 }
 
 /**
@@ -100,6 +90,23 @@ AnalyzeResult AnalyzeFunctions(
 auto SplitByClasses(const AnalyzeResult& analysis)
 {
   // здесь ваш код
+  return analysis
+    | std::views::filter(
+      [](const auto& p)
+      {
+        const function::Function fn = p.first;
+        return fn.class_name.has_value();
+      }
+    )
+    | std::views::chunk_by(
+      [](const auto& p1, const auto& p2)
+      {
+        const function::Function fn1 = p1.first;
+        const function::Function fn2 = p2.first;
+
+        return fn1.class_name == fn2.class_name;
+      }
+  );
 }
 
 /**
@@ -114,7 +121,14 @@ auto SplitByClasses(const AnalyzeResult& analysis)
 auto SplitByFiles(const AnalyzeResult& analysis)
 {
   // здесь ваш код
-  // return r | std::ranges::to<std::vector>();
+  return analysis
+    | std::views::chunk_by(
+      [](const auto& a, const auto& b)
+      {
+        return a.first.filename == b.first.filename;
+      }
+    )
+    | std::ranges::to<std::vector>();
 }
 
 /**
@@ -127,11 +141,16 @@ auto SplitByFiles(const AnalyzeResult& analysis)
  *   `AccumulateNextFunctionResults`.
  */
 void AccumulateFunctionAnalysis(
-  const auto &analysis,
-  const analyzer::metric_accumulator::MetricsAccumulator &accumulator
+  const AnalyzeResult& analysis,
+  const analyzer::metric_accumulator::MetricsAccumulator& accumulator
 )
 {
   // здесь ваш код
+  for (const PairFnRes& r : analysis)
+  {
+    const metric::MetricResults mr = r.second;
+    accumulator.AccumulateNextFunctionResults(mr);
+  }
 }
 
 }  // namespace analyzer

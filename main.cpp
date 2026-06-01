@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         metrics,
         [&](const MetricResult& result)
         {
-          std::print("    {}: {}", result.metric_name, result.value);
+          std::println("    {}: {}", result.metric_name, result.value);
 
           //
           // For std::variant
@@ -114,14 +114,14 @@ int main(int argc, char *argv[])
 
     std::ranges::for_each(
       naming_acc_metric.Get(),
-      [](const auto &elem)
+      [](const auto& elem)
       {
         std::println("    Naming style '{}' is occured {} times",
                      elem.first, elem.second);
       }
     );
 
-    auto &cl_acc_metric =
+    auto& cl_acc_metric =
         accumulator.template GetFinalizedAccumulator<SumAverageAccumulator>(
           CodeLinesCountMetric::kName
         );
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
                  cp_acc_metric.Get());
   };
 
-  // FIXME: to compile for now
+  // FIXME:
   #if 0
   auto analysis_by_files = analyzer::SplitByFiles(analysis);
 
@@ -152,13 +152,18 @@ int main(int argc, char *argv[])
       accumulator.ResetAccumulators();
     }
   );
+  #endif
 
   auto analysis_by_classes = analyzer::SplitByClasses(analysis);
 
-  std::ranges::for_each(analysis_by_classes, [&accumulator, &print_accumulated_analysis](const auto &analysis) {
+  std::ranges::for_each(
+    analysis_by_classes,
+    [&accumulator, &print_accumulated_analysis](const auto& analysis)
+    {
       analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
       std::println();
-      std::println("Accumulated Analysis for сlass {}:", analysis.front().first.class_name.value());
+      std::println("Accumulated Analysis for сlass {}:",
+                   analysis.front().first.class_name.value());
       print_accumulated_analysis(accumulator);
       accumulator.ResetAccumulators();
   });
@@ -167,7 +172,6 @@ int main(int argc, char *argv[])
   std::println();
   std::println("Accumulated Analysis for All Functions:");
   print_accumulated_analysis(accumulator);
-  #endif
 
   return 0;
 }

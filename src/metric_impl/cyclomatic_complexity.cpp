@@ -15,6 +15,8 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <print>
+#include <sstream>
 
 #include "utils.hpp"
 
@@ -83,6 +85,31 @@ CyclomaticComplexityMetric::CalculateImpl(const function::Function& f) const
   // в цикле (это допустимо, так как вы работаете со строковым представлением
   // AST, а не с исходным кодом напрямую).
 
-  return 0;
+  std::stringstream ss(function_ast);
+
+  std::vector<std::string> lines;
+
+  std::string line;
+  while (std::getline(ss, line))
+  {
+    lines.push_back(line);
+  }
+
+  size_t total = 0;
+
+  for (auto& what : complexity_nodes)
+  {
+    total += std::ranges::count_if(
+      lines,
+      [&](const std::string& line)
+      {
+        return line.find(what) != std::string::npos;
+      }
+    );
+  }
+
+  total++;
+
+  return total;
 }
 }  // namespace analyzer::metric::metric_impl
