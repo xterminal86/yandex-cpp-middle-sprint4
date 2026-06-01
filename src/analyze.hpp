@@ -16,6 +16,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <typeinfo>
 
 #include "file.hpp"
 #include "function.hpp"
@@ -121,6 +122,27 @@ auto SplitByClasses(const AnalyzeResult& analysis)
 auto SplitByFiles(const AnalyzeResult& analysis)
 {
   // здесь ваш код
+  auto chunks = analysis | std::views::chunk_by(
+    [](const auto& a, const auto& b)
+    {
+      return a.first.filename == b.first.filename;
+    }
+  ) | std::ranges::to<std::vector>();
+
+  for (auto& chunk : chunks)
+  {
+    if (!chunk.empty())
+    {
+      for (auto& e : chunk)
+      {
+        const function::Function& fn = e.first;
+        const metric::MetricResults& mr = e.second;
+
+        std::println("{}: {}", fn.filename, fn.name);
+      }
+    }
+  }
+
   return analysis
     | std::views::chunk_by(
       [](const auto& a, const auto& b)
@@ -146,11 +168,13 @@ void AccumulateFunctionAnalysis(
 )
 {
   // здесь ваш код
-  for (const PairFnRes& r : analysis)
-  {
-    const metric::MetricResults mr = r.second;
-    accumulator.AccumulateNextFunctionResults(mr);
-  }
+  std::ranges::for_each(
+    analysis,
+    [&accumulator](const auto& p)
+    {
+      accumulator.AccumulateNextFunctionResults(p.second);
+    }
+  );
 }
 
 }  // namespace analyzer

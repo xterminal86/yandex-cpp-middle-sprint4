@@ -136,10 +136,9 @@ int main(int argc, char *argv[])
                  cp_acc_metric.Get());
   };
 
-  // FIXME:
-  #if 0
   auto analysis_by_files = analyzer::SplitByFiles(analysis);
 
+  #if 0
   std::ranges::for_each(
     analysis_by_files,
     [&accumulator, &print_accumulated_analysis](const auto& analysis)
@@ -160,7 +159,9 @@ int main(int argc, char *argv[])
     analysis_by_classes,
     [&accumulator, &print_accumulated_analysis](const auto& analysis)
     {
-      analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
+      // FIXME:
+      //analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
+
       std::println();
       std::println("Accumulated Analysis for сlass {}:",
                    analysis.front().first.class_name.value());
