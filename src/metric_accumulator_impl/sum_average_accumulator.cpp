@@ -31,7 +31,7 @@ void SumAverageAccumulator::Accumulate(
 
 void SumAverageAccumulator::Finalize()
 {
-  average = static_cast<double>(sum) / count;
+  average = (count != 0) ? (static_cast<double>(sum) / count) : 0;
   is_finalized = true;
 }
 
@@ -51,7 +51,9 @@ SumAverageAccumulator::SumAverage SumAverageAccumulator::Get() const
 {
   if (!is_finalized)
   {
-    throw std::runtime_error("CategoricalAccumulator::Get() called before Finalize()");
+    throw std::runtime_error(
+      "CategoricalAccumulator::Get() called before Finalize()"
+    );
   }
 
   return { sum, average };

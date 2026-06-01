@@ -122,6 +122,7 @@ auto SplitByClasses(const AnalyzeResult& analysis)
 auto SplitByFiles(const AnalyzeResult& analysis)
 {
   // здесь ваш код
+  /*
   auto chunks = analysis | std::views::chunk_by(
     [](const auto& a, const auto& b)
     {
@@ -138,10 +139,11 @@ auto SplitByFiles(const AnalyzeResult& analysis)
         const function::Function& fn = e.first;
         const metric::MetricResults& mr = e.second;
 
-        std::println("{}: {}", fn.filename, fn.name);
+        std::println("e {}: {}", fn.filename, fn.name);
       }
     }
   }
+  */
 
   return analysis
     | std::views::chunk_by(

@@ -7,6 +7,7 @@
 #include <ranges>
 #include <string>
 #include <vector>
+#include <print>
 
 namespace analyzer::file {
 
@@ -24,6 +25,10 @@ File::File(const std::string& filename) : name{filename}
   }
 
   ast = GetAst(filename);
+
+  std::println("---- {} ----", filename);
+  std::println("AST:\n{}\n", ast);
+
   source_lines = ReadSourceFile(file);
 }
 

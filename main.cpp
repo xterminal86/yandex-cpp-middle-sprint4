@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
 
   using namespace analyzer::metric;
   using namespace analyzer::metric::metric_impl;
+  using namespace analyzer::metric_accumulator;
 
   MetricExtractor metric_extractor;
 
@@ -85,8 +86,10 @@ int main(int argc, char *argv[])
     }
   );
 
-  analyzer::metric_accumulator::MetricsAccumulator accumulator;
+  MetricsAccumulator accumulator;
+
   using namespace analyzer::metric_accumulator::metric_accumulator_impl;
+
   accumulator.RegisterAccumulator(CyclomaticComplexityMetric::kName,
                                   std::make_unique<SumAverageAccumulator>());
   accumulator.RegisterAccumulator(NamingStyleMetric::kName,
@@ -138,33 +141,34 @@ int main(int argc, char *argv[])
 
   auto analysis_by_files = analyzer::SplitByFiles(analysis);
 
-  #if 0
   std::ranges::for_each(
     analysis_by_files,
-    [&accumulator, &print_accumulated_analysis](const auto& analysis)
+    [&accumulator, &print_accumulated_analysis](const auto& analysis_view)
     {
-      analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
+      std::vector analysis_vec(analysis_view.begin(), analysis_view.end());
+
+      analyzer::AccumulateFunctionAnalysis(analysis_vec, accumulator);
       std::println();
       std::println("Accumulated Analysis for file {}:",
-                   analysis.front().first.filename);
+                   analysis_vec.front().first.filename);
       print_accumulated_analysis(accumulator);
       accumulator.ResetAccumulators();
     }
   );
-  #endif
 
   auto analysis_by_classes = analyzer::SplitByClasses(analysis);
 
   std::ranges::for_each(
     analysis_by_classes,
-    [&accumulator, &print_accumulated_analysis](const auto& analysis)
+    [&accumulator, &print_accumulated_analysis](const auto& analysis_view)
     {
-      // FIXME:
-      //analyzer::AccumulateFunctionAnalysis(analysis, accumulator);
+      std::vector analysis_vec(analysis_view.begin(), analysis_view.end());
+
+      analyzer::AccumulateFunctionAnalysis(analysis_vec, accumulator);
 
       std::println();
       std::println("Accumulated Analysis for сlass {}:",
-                   analysis.front().first.class_name.value());
+                   analysis_vec.front().first.class_name.value());
       print_accumulated_analysis(accumulator);
       accumulator.ResetAccumulators();
   });

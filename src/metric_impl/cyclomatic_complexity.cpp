@@ -93,6 +93,7 @@ CyclomaticComplexityMetric::CalculateImpl(const function::Function& f) const
   while (std::getline(ss, line))
   {
     lines.push_back(line);
+    //std::println("*** {}", line);
   }
 
   size_t total = 0;
@@ -103,7 +104,15 @@ CyclomaticComplexityMetric::CalculateImpl(const function::Function& f) const
       lines,
       [&](const std::string& line)
       {
-        return line.find(what) != std::string::npos;
+        size_t pos = line.find(what);
+
+        bool found = (pos != std::string::npos);
+        //if (found)
+        //{
+        //  std::println("{} *** found '{}'", __FILE__, what);
+        //}
+
+        return found;
       }
     );
   }
