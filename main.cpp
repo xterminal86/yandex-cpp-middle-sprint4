@@ -44,7 +44,10 @@ int main(int argc, char *argv[])
 
   metric_extractor.RegisterMetric<CyclomaticComplexityMetric>();
   metric_extractor.RegisterMetric<CodeLinesCountMetric>();
+
+  // По условию это является опциональным, так что не будем делать.
   //metric_extractor.RegisterMetric<NamingStyleMetric>();
+
   metric_extractor.RegisterMetric<CountParametersMetric>();
 
   AnalyzeResult analysis = AnalyzeFunctions(
@@ -92,8 +95,8 @@ int main(int argc, char *argv[])
 
   accumulator.RegisterAccumulator(CyclomaticComplexityMetric::kName,
                                   std::make_unique<SumAverageAccumulator>());
-  accumulator.RegisterAccumulator(NamingStyleMetric::kName,
-                                  std::make_unique<CategoricalAccumulator>());
+  //accumulator.RegisterAccumulator(NamingStyleMetric::kName,
+  //                                std::make_unique<CategoricalAccumulator>());
   accumulator.RegisterAccumulator(CodeLinesCountMetric::kName,
                                   std::make_unique<SumAverageAccumulator>());
   accumulator.RegisterAccumulator(CountParametersMetric::kName,
@@ -116,7 +119,6 @@ int main(int argc, char *argv[])
           NamingStyleMetric::kName
         );
 
-    // Fuck this.
     std::ranges::for_each(
       naming_acc_metric.Get(),
       [](const auto& elem)
