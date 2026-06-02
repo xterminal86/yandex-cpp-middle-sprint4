@@ -95,8 +95,8 @@ int main(int argc, char *argv[])
 
   accumulator.RegisterAccumulator(CyclomaticComplexityMetric::kName,
                                   std::make_unique<SumAverageAccumulator>());
-  //accumulator.RegisterAccumulator(NamingStyleMetric::kName,
-  //                                std::make_unique<CategoricalAccumulator>());
+  accumulator.RegisterAccumulator(NamingStyleMetric::kName,
+                                  std::make_unique<CategoricalAccumulator>());
   accumulator.RegisterAccumulator(CodeLinesCountMetric::kName,
                                   std::make_unique<SumAverageAccumulator>());
   accumulator.RegisterAccumulator(CountParametersMetric::kName,
