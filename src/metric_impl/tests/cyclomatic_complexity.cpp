@@ -10,69 +10,35 @@ using namespace analyzer::metric;
 
 TEST(CyclomaticComplexity, Test)
 {
+  std::unordered_map<std::string, size_t> testCases =
   {
+      { "comments.py",         1 }
+    , { "exceptions.py",       4 }
+    , { "if.py",               2 }
+    , { "loops.py",            4 }
+    , { "many_lines.py",       2 }
+    , { "many_parameters.py",  2 }
+    , { "match_case.py",       4 }
+    , { "nested_if.py",        4 }
+    , { "simple.py",           2 }
+    , { "ternary.py",          3 }
+  };
+
+  for (auto& kvp : testCases)
+  {
+    const std::string& fname   = kvp.first;
+    const size_t expectedValue = kvp.second;
+
     MetricExtractor me;
     me.RegisterMetric<CyclomaticComplexityMetric>();
 
     AnalyzeResult res = AnalyzeFunctions(
-      { "comments.py" },
+      { fname },
       me
     );
 
     ASSERT_EQ(1, res.size());
-    EXPECT_EQ(1, res[0].second[0].value);
-  }
-  // ---------------------------------------------------------------------------
-  {
-    MetricExtractor me;
-    me.RegisterMetric<CyclomaticComplexityMetric>();
-
-    AnalyzeResult res = AnalyzeFunctions(
-      { "exceptions.py" },
-      me
-    );
-
-    ASSERT_EQ(1, res.size());
-    EXPECT_EQ(4, res[0].second[0].value);
-  }
-  // ---------------------------------------------------------------------------
-  {
-    MetricExtractor me;
-    me.RegisterMetric<CyclomaticComplexityMetric>();
-
-    AnalyzeResult res = AnalyzeFunctions(
-      { "nested_if.py" },
-      me
-    );
-
-    ASSERT_EQ(1, res.size());
-    EXPECT_EQ(4, res[0].second[0].value);
-  }
-  // ---------------------------------------------------------------------------
-  {
-    MetricExtractor me;
-    me.RegisterMetric<CyclomaticComplexityMetric>();
-
-    AnalyzeResult res = AnalyzeFunctions(
-      { "ternary.py" },
-      me
-    );
-
-    ASSERT_EQ(1, res.size());
-    EXPECT_EQ(3, res[0].second[0].value);
-  }
-  // ---------------------------------------------------------------------------
-  {
-    MetricExtractor me;
-    me.RegisterMetric<CyclomaticComplexityMetric>();
-
-    AnalyzeResult res = AnalyzeFunctions(
-      { "loops.py" },
-      me
-    );
-
-    ASSERT_EQ(1, res.size());
-    EXPECT_EQ(4, res[0].second[0].value);
+    EXPECT_EQ(expectedValue, res[0].second[0].value);
   }
   // ---------------------------------------------------------------------------
   {

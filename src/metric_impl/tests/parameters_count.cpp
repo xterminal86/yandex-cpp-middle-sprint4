@@ -7,30 +7,35 @@ namespace analyzer::metric::metric_impl {
 
 TEST(ParametersCount, Test)
 {
+  std::unordered_map<std::string, size_t> testCases =
   {
+      { "comments.py",         3 }
+    , { "exceptions.py",       0 }
+    , { "if.py",               1 }
+    , { "loops.py",            1 }
+    , { "many_lines.py",       0 }
+    , { "many_parameters.py",  5 }
+    , { "match_case.py",       1 }
+    , { "nested_if.py",        2 }
+    , { "simple.py",           0 }
+    , { "ternary.py",          1 }
+  };
+
+  for (auto& kvp : testCases)
+  {
+    const std::string& fname   = kvp.first;
+    const size_t expectedValue = kvp.second;
+
     MetricExtractor me;
     me.RegisterMetric<CountParametersMetric>();
 
     AnalyzeResult res = AnalyzeFunctions(
-      { "many_parameters.py" },
+      { fname },
       me
     );
 
     ASSERT_EQ(1, res.size());
-    EXPECT_EQ(5, res[0].second[0].value);
-  }
-  // ---------------------------------------------------------------------------
-  {
-    MetricExtractor me;
-    me.RegisterMetric<CountParametersMetric>();
-
-    AnalyzeResult res = AnalyzeFunctions(
-      { "simple.py" },
-      me
-    );
-
-    ASSERT_EQ(1, res.size());
-    EXPECT_EQ(0, res[0].second[0].value);
+    EXPECT_EQ(expectedValue, res[0].second[0].value);
   }
 }
 
