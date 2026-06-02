@@ -110,11 +110,13 @@ int main(int argc, char *argv[])
                  cc_acc_metric.Get().sum);
     std::println("    Average Cyclomatic Complexity per function: {}",
                  cc_acc_metric.Get().average);
-    auto &naming_acc_metric =
+
+    auto& naming_acc_metric =
         accumulator.template GetFinalizedAccumulator<CategoricalAccumulator>(
           NamingStyleMetric::kName
         );
 
+    // Fuck this.
     std::ranges::for_each(
       naming_acc_metric.Get(),
       [](const auto& elem)
@@ -128,6 +130,7 @@ int main(int argc, char *argv[])
         accumulator.template GetFinalizedAccumulator<SumAverageAccumulator>(
           CodeLinesCountMetric::kName
         );
+
     std::println("    Sum Code lines count: {}", cl_acc_metric.Get().sum);
     std::println("    Average Code lines count per function: {}",
                  cl_acc_metric.Get().average);

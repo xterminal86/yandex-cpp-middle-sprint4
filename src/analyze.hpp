@@ -44,7 +44,10 @@ namespace rs = std::ranges;
 using PairFnRes = std::pair<function::Function, metric::MetricResults>;
 using AnalyzeResult = std::vector<PairFnRes>;
 
-AnalyzeResult AnalyzeFunctions(
+//
+// NOTE: need inline for tests to compile.
+//
+inline AnalyzeResult AnalyzeFunctions(
   const std::vector<std::string>& files,
   const metric::MetricExtractor& metric_extractor
 )
@@ -88,7 +91,7 @@ AnalyzeResult AnalyzeFunctions(
  *  Чтобы убедиться, что фильтрация работает, проверьте, что свободные функции
  *  (без class_name) действительно исчезают из результата.
  */
-auto SplitByClasses(const AnalyzeResult& analysis)
+inline auto SplitByClasses(const AnalyzeResult& analysis)
 {
   // здесь ваш код
   return analysis
@@ -119,32 +122,9 @@ auto SplitByClasses(const AnalyzeResult& analysis)
  * - Использует `chunk_by`, поэтому **порядок функций в `analysis` должен быть
  *   по файлам**.
  */
-auto SplitByFiles(const AnalyzeResult& analysis)
+inline auto SplitByFiles(const AnalyzeResult& analysis)
 {
   // здесь ваш код
-  /*
-  auto chunks = analysis | std::views::chunk_by(
-    [](const auto& a, const auto& b)
-    {
-      return a.first.filename == b.first.filename;
-    }
-  ) | std::ranges::to<std::vector>();
-
-  for (auto& chunk : chunks)
-  {
-    if (!chunk.empty())
-    {
-      for (auto& e : chunk)
-      {
-        const function::Function& fn = e.first;
-        const metric::MetricResults& mr = e.second;
-
-        std::println("e {}: {}", fn.filename, fn.name);
-      }
-    }
-  }
-  */
-
   return analysis
     | std::views::chunk_by(
       [](const auto& a, const auto& b)
@@ -164,7 +144,7 @@ auto SplitByFiles(const AnalyzeResult& analysis)
  * - Передаёт результаты метрик (`elem.second`) в аккумулятор через
  *   `AccumulateNextFunctionResults`.
  */
-void AccumulateFunctionAnalysis(
+inline void AccumulateFunctionAnalysis(
   const AnalyzeResult& analysis,
   const analyzer::metric_accumulator::MetricsAccumulator& accumulator
 )

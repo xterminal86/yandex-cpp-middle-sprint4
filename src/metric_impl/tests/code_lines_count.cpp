@@ -9,7 +9,7 @@ using namespace analyzer;
 using namespace analyzer::metric;
 
 // здесь ваш код
-TEST(BasicCheck, Sum)
+TEST(CodeLinesCount, Test)
 {
   {
     MetricExtractor me;
