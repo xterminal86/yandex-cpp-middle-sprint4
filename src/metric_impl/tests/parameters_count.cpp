@@ -35,7 +35,7 @@ TEST(ParametersCount, Test)
     );
 
     ASSERT_EQ(1, res.size());
-    EXPECT_EQ(expectedValue, res[0].second[0].value);
+    EXPECT_EQ(expectedValue, std::get<int>(res[0].second[0].value));
   }
 }
 

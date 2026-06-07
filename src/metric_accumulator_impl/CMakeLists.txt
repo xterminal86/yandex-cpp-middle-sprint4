@@ -9,6 +9,7 @@ add_executable(${target}
     ${CMAKE_SOURCE_DIR}/src/metric_impl/code_lines_count.cpp
     ${CMAKE_SOURCE_DIR}/src/metric_impl/cyclomatic_complexity.cpp
     ${CMAKE_SOURCE_DIR}/src/metric_impl/parameters_count.cpp
+    ${CMAKE_SOURCE_DIR}/src/metric_impl/naming_style.cpp
 )
 
 target_link_libraries(${target}

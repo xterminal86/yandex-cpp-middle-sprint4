@@ -39,7 +39,7 @@ TEST(CodeLinesCount, Test)
     );
 
     ASSERT_EQ(1, res.size());
-    EXPECT_EQ(expectedValue, res[0].second[0].value);
+    EXPECT_EQ(expectedValue, std::get<int>(res[0].second[0].value));
   }
   // ---------------------------------------------------------------------------
   {
@@ -52,10 +52,9 @@ TEST(CodeLinesCount, Test)
     );
 
     ASSERT_EQ(2, res.size());
-    EXPECT_EQ(3, res[0].second[0].value);
-    EXPECT_EQ(7, res[1].second[0].value);
+    EXPECT_EQ(3, std::get<int>(res[0].second[0].value));
+    EXPECT_EQ(7, std::get<int>(res[1].second[0].value));
   }
 }
 
 }  // namespace analyzer::metric::metric_impl
-

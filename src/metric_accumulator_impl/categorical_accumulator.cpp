@@ -23,8 +23,7 @@ void CategoricalAccumulator::Accumulate(
   const metric::MetricResult &metric_result
 )
 {
-  //categories_freq[std::get<std::string>(metric_result.value)]++;
-  categories_freq[metric_result.metric_name]++;
+  categories_freq[std::get<std::string>(metric_result.value)]++;
 }
 
 // =============================================================================
@@ -44,7 +43,7 @@ void CategoricalAccumulator::Reset()
 
 // =============================================================================
 
-const std::unordered_map<std::string, int> &CategoricalAccumulator::Get() const
+const std::unordered_map<std::string, int>& CategoricalAccumulator::Get() const
 {
   if (!is_finalized)
   {

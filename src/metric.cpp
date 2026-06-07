@@ -33,10 +33,14 @@ MetricResults MetricExtractor::Get(const function::Function& func) const
   // здесь ваш код
   MetricResults res;
 
-  for (auto& metric : metrics)
-  {
-    res.push_back(metric->Calculate(func));
-  }
+  std::ranges::transform(
+    metrics,
+    std::back_inserter(res),
+    [&func](auto& metric)
+    {
+      return metric->Calculate(func);
+    }
+  );
 
   return res;
 }

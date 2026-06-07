@@ -28,7 +28,7 @@ struct CategoricalAccumulator : public IAccumulator
 
     virtual void Reset() override;
 
-    const std::unordered_map<std::string, int> &Get() const;
+    const std::unordered_map<std::string, int>& Get() const;
 
   private:
     std::unordered_map<std::string, int> categories_freq;

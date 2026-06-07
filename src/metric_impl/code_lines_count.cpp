@@ -89,7 +89,7 @@ CodeLinesCountMetric::CalculateImpl(const function::Function& f) const
   // Потому что первая строка — это строка с объявлением функции (def ...),
   // а тело функции начинается со следующей строки (обычно с отступа).
 
-  return std::ranges::count_if(
+  return (int)std::ranges::count_if(
     std::views::iota(start_line + 1, end_line + 1),
     is_code_line
   );

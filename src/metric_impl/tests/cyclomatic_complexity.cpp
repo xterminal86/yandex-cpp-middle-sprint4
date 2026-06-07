@@ -37,8 +37,10 @@ TEST(CyclomaticComplexity, Test)
       me
     );
 
+    int expected = std::get<int>(res[0].second[0].value);
+
     ASSERT_EQ(1, res.size());
-    EXPECT_EQ(expectedValue, res[0].second[0].value);
+    EXPECT_EQ(expectedValue, expected);
   }
   // ---------------------------------------------------------------------------
   {
@@ -50,8 +52,11 @@ TEST(CyclomaticComplexity, Test)
       me
     );
 
+    int expected = std::get<int>(res[0].second[0].value) +
+                   std::get<int>(res[1].second[0].value);
+
     ASSERT_EQ(2, res.size());
-    EXPECT_EQ(5, (res[0].second[0].value + res[1].second[0].value));
+    EXPECT_EQ(5, expected);
   }
 }
 

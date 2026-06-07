@@ -96,7 +96,7 @@ CyclomaticComplexityMetric::CalculateImpl(const function::Function& f) const
     //std::println("*** {}", line);
   }
 
-  size_t total = 0;
+  int total = 0;
 
   for (auto& what : complexity_nodes)
   {

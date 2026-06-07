@@ -44,10 +44,7 @@ int main(int argc, char *argv[])
 
   metric_extractor.RegisterMetric<CyclomaticComplexityMetric>();
   metric_extractor.RegisterMetric<CodeLinesCountMetric>();
-
-  // По условию это является опциональным, так что не будем делать.
-  //metric_extractor.RegisterMetric<NamingStyleMetric>();
-
+  metric_extractor.RegisterMetric<NamingStyleMetric>();
   metric_extractor.RegisterMetric<CountParametersMetric>();
 
   AnalyzeResult analysis = AnalyzeFunctions(
@@ -72,18 +69,18 @@ int main(int argc, char *argv[])
         metrics,
         [&](const MetricResult& result)
         {
-          std::println("    {}: {}", result.metric_name, result.value);
+          std::print("  {}: ", result.metric_name);
 
           //
           // For std::variant
           //
-          //std::visit(
-          //  [](auto&& val)
-          //  {
-          //    std::println("{}", val);
-          //  },
-          //  result.value
-          //);
+          std::visit(
+            [](auto&& val)
+            {
+              std::println("{}", val);
+            },
+            result.value
+          );
         }
       );
     }
@@ -102,7 +99,8 @@ int main(int argc, char *argv[])
   accumulator.RegisterAccumulator(CountParametersMetric::kName,
                                   std::make_unique<AverageAccumulator>());
 
-  auto print_accumulated_analysis = [](const auto& accumulator)
+  auto print_accumulated_analysis =
+  [](const MetricsAccumulator& accumulator)
   {
     auto& cc_acc_metric =
         accumulator.template GetFinalizedAccumulator<SumAverageAccumulator>(
