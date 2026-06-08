@@ -4,6 +4,7 @@ add_executable(${target}
     tests/code_lines_count.cpp
     tests/cyclomatic_complexity.cpp
     tests/parameters_count.cpp
+    ${CMAKE_SOURCE_DIR}/src/metric_accumulator.cpp
 )
 
 target_link_libraries(${target}
